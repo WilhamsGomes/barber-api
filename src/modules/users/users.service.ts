@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from 'src/shared/database/repositories/user.repositories';
 
@@ -9,15 +9,6 @@ export class UsersService {
   async createUser(createUserDto: CreateUserDto) {
     const { email, name, password, cep, phone } = createUserDto;
 
-    // return this.prisma.user.create({
-    //   data: {
-    //     email,
-    //     name,
-    //     cep,
-    //     password,
-    //     phone,
-    //   },
-    // });
     const user = await this.usersRepo.create({
       data: {
         email,
@@ -29,5 +20,28 @@ export class UsersService {
     });
 
     return { user };
+  }
+
+  async findAll() {
+    return await this.usersRepo.findAll();
+  }
+
+  async findOne(userId: string) {
+    const user = await this.usersRepo.findFirst({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cep: true,
+        phone: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 }

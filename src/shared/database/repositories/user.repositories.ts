@@ -9,4 +9,12 @@ export class UserRepository {
   create(createDto: Prisma.UserCreateArgs) {
     return this.prisma.user.create(createDto);
   }
+
+  findAll() {
+    return this.prisma.user.findMany();
+  }
+
+  findFirst(findFirstDto: Prisma.UserFindFirstArgs) {
+    return this.prisma.user.findFirst(findFirstDto);
+  }
 }
