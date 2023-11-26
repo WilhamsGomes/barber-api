@@ -17,4 +17,12 @@ export class UserRepository {
   findFirst(findFirstDto: Prisma.UserFindFirstArgs) {
     return this.prisma.user.findFirst(findFirstDto);
   }
+
+  update(updateDto: Prisma.UserUpdateArgs) {
+    return this.prisma.user.update(updateDto);
+  }
+
+  delete(deleteDto: Prisma.UserDeleteArgs) {
+    return this.prisma.user.delete(deleteDto);
+  }
 }
