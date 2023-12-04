@@ -19,16 +19,17 @@ model User {
 }
 
 model Barber {
-  id      String @id @default(uuid()) @db.Uuid
-  owner   String
-  email   String @unique
-  phone   String @unique
-  cep     String
-  address String
-  city    String
-  state   String
-  number  Int
+  id       String @id @default(uuid()) @db.Uuid
+  name     String
+  owner    String
+  email    String @unique
+  phone    String @unique
+  cep      String
+  address  String
+  district String
+  city     String
+  state    String
+  number   Int
 
   @@map("barbers")
 }
-
