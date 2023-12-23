@@ -30,6 +30,7 @@ model Barber {
   city     String
   state    String
   number   Int
+  password String
 
   @@map("barbers")
 }

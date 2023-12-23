@@ -39,7 +39,7 @@ export class CreateBarberDto {
 
   @IsString()
   @IsNotEmpty()
-  number: string;
+  number: number;
 
   @IsString()
   @IsNotEmpty()

@@ -1,11 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
+import { BarberRepository } from 'src/shared/database/repositories/barber.repositories';
 
 @Injectable()
 export class BarbersService {
-  create(createBarberDto: CreateBarberDto) {
-    return 'This action adds a new barber';
+  constructor(private readonly barberRepos: BarberRepository) {}
+  async create(createBarberDto: CreateBarberDto) {
+    const {
+      address,
+      cep,
+      city,
+      district,
+      email,
+      name,
+      number,
+      owner,
+      password,
+      phone,
+      state,
+    } = createBarberDto;
+
+    const barber = await this.barberRepos.create({
+      data: {
+        address,
+        cep,
+        city,
+        district,
+        email,
+        name,
+        number,
+        owner,
+        phone,
+        state,
+        password,
+      },
+    });
+
+    return barber;
   }
 
   findAll() {
