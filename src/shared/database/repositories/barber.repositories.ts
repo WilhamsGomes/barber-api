@@ -10,8 +10,8 @@ export class BarberRepository {
     return this.prisma.barber.create(createDto);
   }
 
-  findAll() {
-    return this.prisma.barber.findMany();
+  findAll(findAllDto?: Prisma.BarberFindManyArgs) {
+    return this.prisma.barber.findMany(findAllDto);
   }
 
   findFirst(findFirstDto: Prisma.BarberFindFirstArgs) {

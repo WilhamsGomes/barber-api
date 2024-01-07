@@ -19,30 +19,18 @@ export class CreateBarberDto {
 
   @IsString()
   @IsNotEmpty()
-  cep: string;
+  @MinLength(6)
+  password: string;
 
   @IsString()
   @IsNotEmpty()
-  address: string;
+  zip: string;
+
+  @IsString()
+  @IsNotEmpty()
+  street: string;
 
   @IsString()
   @IsNotEmpty()
   city: string;
-
-  @IsString()
-  @IsNotEmpty()
-  state: string;
-
-  @IsString()
-  @IsNotEmpty()
-  district: string;
-
-  @IsString()
-  @IsNotEmpty()
-  number: number;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(6)
-  password: string;
 }
