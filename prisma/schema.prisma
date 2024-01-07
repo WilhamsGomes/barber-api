@@ -18,19 +18,40 @@ model User {
   @@map("users")
 }
 
+model Address {
+  id        String   @id @default(uuid()) @db.Uuid
+  street    String
+  city      String
+  zip       String
+  latitude  Float?
+  longitude Float?
+  barber    Barber[]
+
+  @@map("address")
+}
+
+model Services {
+  id          String @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  price       Float
+  barberId    String @db.Uuid
+  
+  barber Barber @relation(fields: [barberId], references: [id])
+
+  @@map("services")
+}
+
 model Barber {
-  id       String @id @default(uuid()) @db.Uuid
-  name     String
-  owner    String
-  email    String @unique
-  phone    String @unique
-  cep      String
-  address  String
-  district String
-  city     String
-  state    String
-  number   Int
-  password String
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String
+  owner     String
+  email     String     @unique
+  phone     String     @unique
+  password  String
+  
+  addressId Address    @relation(fields: [id], references: [id], onDelete: Cascade)
+  Services  Services[]
 
   @@map("barbers")
 }
