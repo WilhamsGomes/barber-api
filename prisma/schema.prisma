@@ -51,7 +51,7 @@ model Barber {
   password  String
   
   addressId Address    @relation(fields: [id], references: [id], onDelete: Cascade)
-  Services  Services[]
+  services  Services[]
 
   @@map("barbers")
 }
