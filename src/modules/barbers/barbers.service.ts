@@ -60,7 +60,7 @@ export class BarbersService {
   }
 
   async findAll() {
-    return await this.barberRepos.findAll({
+    const barbers = await this.barberRepos.findAll({
       include: {
         addressId: {
           select: {
@@ -71,7 +71,25 @@ export class BarbersService {
             longitude: true,
           },
         },
+        Services: {
+          select: {
+            title: true,
+            price: true,
+            description: true,
+            id: true,
+          },
+        },
       },
+    });
+
+    // Retirar o any!!!
+    return barbers.map((item: any) => {
+      const { addressId, Services, ...rest } = item;
+      return {
+        ...rest,
+        address: addressId,
+        services: Services,
+      };
     });
   }
 
@@ -88,6 +106,14 @@ export class BarbersService {
             city: true,
             latitude: true,
             longitude: true,
+          },
+        },
+        Services: {
+          select: {
+            title: true,
+            price: true,
+            description: true,
+            id: true,
           },
         },
       },

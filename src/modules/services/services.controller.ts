@@ -15,28 +15,28 @@ import { UpdateServiceDto } from './dto/update-service.dto';
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
-  @Post(':barberId')
+  @Post('')
   create(@Body() createServiceDto: CreateServiceDto) {
     return this.servicesService.create(createServiceDto);
   }
 
-  @Get(':barberId')
+  @Get('')
   findAll() {
     return this.servicesService.findAll();
   }
 
-  @Get(':barberId/:id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(+id);
+    return this.servicesService.findOne(id);
   }
 
-  @Patch(':barberId/:id')
+  @Patch('/:id')
   update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.servicesService.update(+id, updateServiceDto);
+    return this.servicesService.update(id, updateServiceDto);
   }
 
-  @Delete(':barberId/:id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
-    return this.servicesService.remove(+id);
+    return this.servicesService.remove(id);
   }
 }
