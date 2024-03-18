@@ -36,20 +36,20 @@ model Services {
   description String
   price       Float
   barberId    String @db.Uuid
-  
+
   barber Barber @relation(fields: [barberId], references: [id])
 
   @@map("services")
 }
 
 model Barber {
-  id        String     @id @default(uuid()) @db.Uuid
-  name      String
-  owner     String
-  email     String     @unique
-  phone     String     @unique
-  password  String
-  
+  id       String @id @default(uuid()) @db.Uuid
+  name     String
+  owner    String
+  email    String @unique
+  phone    String @unique
+  password String
+
   addressId Address    @relation(fields: [id], references: [id], onDelete: Cascade)
   services  Services[]
 
