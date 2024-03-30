@@ -139,6 +139,16 @@ export class BarbersService {
       throw new NotFoundException('Barber not found');
     }
 
+    const isExistsEmail = await this.barberRepos.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (isExistsEmail) {
+      throw new ConflictException('This email is already in use');
+    }
+
     const barber = await this.barberRepos.update({
       data: {
         email,

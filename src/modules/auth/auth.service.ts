@@ -2,11 +2,13 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SigninDto } from './dto/signin';
 import { UserRepository } from 'src/shared/database/repositories/user.repositories';
 import { JwtService } from '@nestjs/jwt';
+import { BarberRepository } from 'src/shared/database/repositories/barber.repositories';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersRepo: UserRepository,
+    private readonly barbersRepo: BarberRepository,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -17,12 +19,28 @@ export class AuthService {
       where: { email: email },
     });
 
-    if (!user || user.password !== password) {
-      throw new UnauthorizedException('Invalid credentials');
+    if (user && user.password === password) {
+      const acessToken = await this.jwtService.signAsync({
+        sub: user.id,
+        entity: 'user',
+      });
+
+      return { acessToken };
     }
 
-    const acessToken = await this.jwtService.signAsync({ sub: user.id });
+    const barber = await this.barbersRepo.findFirst({
+      where: { email: email },
+    });
 
-    return { acessToken };
+    if (barber && barber.password === password) {
+      const acessToken = await this.jwtService.signAsync({
+        sub: barber.id,
+        entity: 'barber',
+      });
+
+      return { acessToken };
+    }
+
+    throw new UnauthorizedException('Invalid credentials');
   }
 }
