@@ -11,8 +11,8 @@ export class ServicesService {
     private readonly barberRepos: BarberRepository,
   ) {}
 
-  async create(createServiceDto: CreateServiceDto) {
-    const { title, price, description, barberId } = createServiceDto;
+  async create(barberId: string, createServiceDto: CreateServiceDto) {
+    const { title, price, description } = createServiceDto;
 
     const barberExists = await this.barberRepos.findFirst({
       where: {
@@ -40,26 +40,31 @@ export class ServicesService {
     return await this.serviceRepos.findAll();
   }
 
-  async findOne(id: string) {
-    const service = await this.serviceRepos.findFirst({
+  async findManyByBarber(barberId: string) {
+    const services = await this.serviceRepos.findAll({
       where: {
-        id: id,
+        barberId: barberId,
       },
     });
 
-    if (!service) {
-      throw new NotFoundException('service not found');
+    if (!services) {
+      throw new NotFoundException('services not found in barber');
     }
 
-    return service;
+    return services;
   }
 
-  async update(id: string, updateServiceDto: UpdateServiceDto) {
+  async update(
+    id: string,
+    barberId: string,
+    updateServiceDto: UpdateServiceDto,
+  ) {
     const { title, description, price } = updateServiceDto;
 
     const isExistsService = await this.serviceRepos.findFirst({
       where: {
         id: id,
+        barberId: barberId,
       },
     });
 
@@ -79,10 +84,11 @@ export class ServicesService {
     return service;
   }
 
-  async remove(id: string) {
+  async remove(barberId: string, id: string) {
     const isExistsService = await this.serviceRepos.findFirst({
       where: {
         id: id,
+        barberId: barberId,
       },
     });
 

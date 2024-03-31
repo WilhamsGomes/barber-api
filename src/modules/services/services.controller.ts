@@ -10,14 +10,18 @@ import {
 import { ServicesService } from './services.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
+import { ActiveUserId } from 'src/shared/decorators/ActiveUserId';
 
 @Controller('services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
   @Post('')
-  create(@Body() createServiceDto: CreateServiceDto) {
-    return this.servicesService.create(createServiceDto);
+  create(
+    @ActiveUserId() barberId: string,
+    @Body() createServiceDto: CreateServiceDto,
+  ) {
+    return this.servicesService.create(barberId, createServiceDto);
   }
 
   @Get('')
@@ -25,18 +29,22 @@ export class ServicesController {
     return this.servicesService.findAll();
   }
 
-  @Get('/:id')
-  findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(id);
+  @Get('/:barberId')
+  findManyPerBarber(@Param('barberId') barberId: string) {
+    return this.servicesService.findManyByBarber(barberId);
   }
 
   @Patch('/:id')
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.servicesService.update(id, updateServiceDto);
+  update(
+    @ActiveUserId() barberId: string,
+    @Param('id') id: string,
+    @Body() updateServiceDto: UpdateServiceDto,
+  ) {
+    return this.servicesService.update(id, barberId, updateServiceDto);
   }
 
   @Delete('/:id')
-  remove(@Param('id') id: string) {
-    return this.servicesService.remove(id);
+  remove(@ActiveUserId() barberId: string, @Param('id') id: string) {
+    return this.servicesService.remove(barberId, id);
   }
 }
