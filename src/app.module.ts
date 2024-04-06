@@ -6,6 +6,7 @@ import { ServicesModule } from './modules/services/services.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './modules/auth/auth.guard';
+import { TimeModule } from './modules/time/time.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
     BarbersModule,
     ServicesModule,
     AuthModule,
+    TimeModule,
   ],
   controllers: [],
   providers: [

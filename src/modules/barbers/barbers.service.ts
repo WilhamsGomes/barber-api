@@ -71,7 +71,7 @@ export class BarbersService {
             longitude: true,
           },
         },
-        Services: {
+        services: {
           select: {
             title: true,
             price: true,
@@ -84,11 +84,11 @@ export class BarbersService {
 
     // Retirar o any!!!
     return barbers.map((item: any) => {
-      const { addressId, Services, ...rest } = item;
+      const { addressId, services, ...rest } = item;
       return {
         ...rest,
         address: addressId,
-        services: Services,
+        services: services,
       };
     });
   }
@@ -108,7 +108,7 @@ export class BarbersService {
             longitude: true,
           },
         },
-        Services: {
+        services: {
           select: {
             title: true,
             price: true,

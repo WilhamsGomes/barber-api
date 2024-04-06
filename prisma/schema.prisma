@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid()) @db.Uuid
-  name     String
-  email    String @unique
-  password String
-  phone    String
-  cep      String
+  id         String       @id @default(uuid()) @db.Uuid
+  name       String
+  email      String       @unique
+  password   String
+  phone      String
+  cep        String
+  Scheduling Scheduling[]
 
   @@map("users")
 }
@@ -52,6 +53,26 @@ model Barber {
 
   addressId Address    @relation(fields: [id], references: [id], onDelete: Cascade)
   services  Services[]
+  Time      Time[]
 
   @@map("barbers")
+}
+
+model Time {
+  id       String   @id @default(uuid()) @db.Uuid
+  time     DateTime
+  status   Boolean
+  barberId String   @db.Uuid
+
+  barber     Barber      @relation(fields: [barberId], references: [id])
+  Scheduling Scheduling?
+}
+
+model Scheduling {
+  id     String @id @default(uuid()) @db.Uuid
+  timeId String @unique @db.Uuid
+  userId String @db.Uuid
+
+  user User @relation(fields: [userId], references: [id])
+  time Time @relation(fields: [timeId], references: [id])
 }
