@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id         String       @id @default(uuid()) @db.Uuid
+  id         String       @id @default(uuid())
   name       String
   email      String       @unique
   password   String
@@ -20,7 +20,7 @@ model User {
 }
 
 model Address {
-  id        String   @id @default(uuid()) @db.Uuid
+  id        String   @id @default(uuid())
   street    String
   city      String
   zip       String
@@ -32,11 +32,11 @@ model Address {
 }
 
 model Services {
-  id          String @id @default(uuid()) @db.Uuid
+  id          String @id @default(uuid())
   title       String
   description String
   price       Float
-  barberId    String @db.Uuid
+  barberId    String
 
   barber Barber @relation(fields: [barberId], references: [id])
 
@@ -44,7 +44,7 @@ model Services {
 }
 
 model Barber {
-  id       String @id @default(uuid()) @db.Uuid
+  id       String @id @default(uuid())
   name     String
   owner    String
   email    String @unique
@@ -59,19 +59,19 @@ model Barber {
 }
 
 model Time {
-  id       String   @id @default(uuid()) @db.Uuid
+  id       String   @id @default(uuid())
   time     DateTime
   status   Boolean
-  barberId String   @db.Uuid
+  barberId String
 
   barber     Barber      @relation(fields: [barberId], references: [id])
   Scheduling Scheduling?
 }
 
 model Scheduling {
-  id     String @id @default(uuid()) @db.Uuid
-  timeId String @unique @db.Uuid
-  userId String @db.Uuid
+  id     String @id @default(uuid())
+  timeId String @unique
+  userId String
 
   user User @relation(fields: [userId], references: [id])
   time Time @relation(fields: [timeId], references: [id])
